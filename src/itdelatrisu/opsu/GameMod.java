@@ -46,12 +46,12 @@ public enum GameMod {
 	              "HardRock", "Everything just got a bit harder..."),
 	SUDDEN_DEATH  (Category.HARD, 1, GameImage.MOD_SUDDEN_DEATH, "SD", 32, Input.KEY_S, 1f,
 	              "SuddenDeath", "Miss a note and fail."),
-//	PERFECT       (Category.HARD, 1, GameImage.MOD_PERFECT, "PF", 64, Input.KEY_S, 1f,
-//	              "Perfect", "SS or quit."),
+	PERFECT       (Category.HARD, 1, GameImage.MOD_PERFECT, "PF", 32, Input.KEY_S + Keys.CONTROL_LEFT, 1f,
+	              "Perfect", "SS or quit."),
 	DOUBLE_TIME   (Category.HARD, 2, GameImage.MOD_DOUBLE_TIME, "DT", 64, Input.KEY_D, 1.12f,
 	              "DoubleTime", "Zoooooooooom."),
-//	NIGHTCORE     (Category.HARD, 2, GameImage.MOD_NIGHTCORE, "NT", 64, Input.KEY_D, 1.12f,
-//	              "Nightcore", "uguuuuuuuu"),
+	NIGHTCORE     (Category.HARD, 2, GameImage.MOD_NIGHTCORE, "NC", 64, Input.KEY_D + Keys.CONTROL_LEFT, 1.12f,
+	              "Nightcore", "uguuuuuuuu"),
 	HIDDEN        (Category.HARD, 3, GameImage.MOD_HIDDEN, "HD", 8, Input.KEY_F, 1.06f,
 	              "Hidden", "Play with no approach circles and fading notes for a slight score advantage."),
 	FLASHLIGHT    (Category.HARD, 4, GameImage.MOD_FLASHLIGHT, "FL", 1024, Input.KEY_G, 1.12f,
@@ -236,6 +236,8 @@ public enum GameMod {
 		if (speedMultiplier < 0f) {
 			if (DOUBLE_TIME.isActive())
 				speedMultiplier = 1.5f;
+			else if ( NIGHTCORE.isActive())
+				speedMultiplier = 1.5f;
 			else if (HALF_TIME.isActive())
 				speedMultiplier = 0.75f;
 			else
@@ -399,11 +401,16 @@ public enum GameMod {
 				else
 					EASY.active = false;
 			}
-			if (HALF_TIME.isActive() && DOUBLE_TIME.isActive()) {
+			if (HALF_TIME.isActive() && DOUBLE_TIME.isActive() && NIGHTCORE.isActive() ) {
 				if (this == HALF_TIME)
 					DOUBLE_TIME.active = false;
+					NIGHTCORE.active = false;
+				else if (this == Double_TIME)
+					HALF_TIME.active = false;
+					NIGHT_CORE.active = false;
 				else
 					HALF_TIME.active = false;
+					DOUBLE_TIME.active = false;
 			}
 		}
 	}
